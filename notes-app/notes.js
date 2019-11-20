@@ -7,27 +7,27 @@ function getNotes(){
 function addNotes(title, body){
     const notes = loadNotes();
 
-    // notes.push({
-    //     title: title,        
-    //     body: body
-    // });
-    // saveNotes(notes);
-
-    log(notes);
-    const duplicateNotes = notes.foreach({ function (note) {
+    const duplicateNotes = notes.filter( function (note) {
         return note.title === title;
-    }});
-    return false;
+    });
     if(duplicateNotes.length === 0){   
         notes.push({
             title: title,        
             body: body
         });
         saveNotes(notes);
-        log('note saved');
+        log('New note saved');
     }else{
-        log('note was duplicate');
+        log('Note was duplicate');
     }
+}
+
+function removeNote(title){
+     const notes = loadNotes();
+    const keepNotes = notes.filter( function (note) {
+        return note.title !== title;
+    });
+    saveNotes(keepNotes);
 }
 
 function saveNotes(notes){
@@ -53,4 +53,5 @@ function loadNotes(){
 module.exports = {
     getNotes: getNotes,
     addNotes: addNotes,
+    removeNote: removeNote,
 }
